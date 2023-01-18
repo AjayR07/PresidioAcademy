@@ -12,7 +12,7 @@ public static class InfrastructureDI
     public static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configurations)
     {
         // Add DbContext
-        services.AddDbContext<PresidioAcademyContext>(opt=> opt.UseSqlServer(configurations.GetConnectionString("SSMS_DB"),
+        services.AddDbContext<PresidioAcademyContext>(opt=> opt.UseSqlServer(configurations.GetConnectionString("SSMS-DB"),
             b=>b.MigrationsAssembly(typeof(PresidioAcademyContext).Assembly.FullName)), ServiceLifetime.Transient);
         services.AddScoped<IPresidioAcademyContext>(provider => provider.GetService<PresidioAcademyContext>());
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();

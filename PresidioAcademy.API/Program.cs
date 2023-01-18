@@ -1,4 +1,7 @@
 using System.Reflection;
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using FluentValidation.AspNetCore;
 using PresidioAcademy.API;
 using PresidioAcademy.Application;
@@ -6,7 +9,11 @@ using PresidioAcademy.Application.Validators;
 using PresidioAcademy.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+var secretClient = new SecretClient(
+    new Uri("https://presidio-academy.vault.azure.net/"),
+    new DefaultAzureCredential());
 
+builder.Configuration.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());
 //Get Configuration manager
 var configurations = builder.Configuration;
 // Add services to the container.
@@ -20,6 +27,7 @@ builder.Services.AddControllers().AddFluentValidation(options =>
     // Automatic registration of validators in assembly
     options.RegisterValidatorsFromAssemblyContaining<EmployeeValidator>();
 });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 

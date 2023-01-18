@@ -9,6 +9,7 @@ public static class API_DI
 {
     public static IServiceCollection AddJWT(this IServiceCollection services, IConfiguration configurations)
     {
+        
         // Add JWT
         services.AddAuthentication(x =>
         {

@@ -8,9 +8,11 @@ using PresidioAcademy.Application;
 using PresidioAcademy.Application.Validators;
 using PresidioAcademy.Infrastructure;
 
+
+// Add Configurations rom Azure Key Vault
 var builder = WebApplication.CreateBuilder(args);
 var secretClient = new SecretClient(
-    new Uri("https://presidio-academy.vault.azure.net/"),
+    new Uri(builder.Configuration["KeyVault:VaultUri"]),
     new DefaultAzureCredential());
 
 builder.Configuration.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());

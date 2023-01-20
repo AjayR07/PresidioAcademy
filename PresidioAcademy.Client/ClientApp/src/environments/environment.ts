@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // backendUrl : "https://localhost:7083/api/"
-  backendUrl : "https://presidioacademy.azurewebsites.net/api/"
+  backendUrl : "https://localhost:7083/api/"
+
 };
 
 /*

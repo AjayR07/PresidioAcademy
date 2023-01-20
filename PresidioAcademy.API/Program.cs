@@ -36,7 +36,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddPersistance(configurations);
 builder.Services.AddServices(configurations);
 builder.Services.AddJWT(configurations);
-
+//Cors Service
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
@@ -52,7 +57,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
-
+app.UseCors("corsapp");
 app.MapControllers();
 
 app.Run();

@@ -36,10 +36,11 @@ public class EmployeeService : IEmployeeService
         }
     }
 
-    public void UpdateEmployee(Employee employee)
+    public void UpdateEmployee(Employee updatedEmployee)
     {
-        employee.Password = BCrypt.Net.BCrypt.HashPassword(employee.Password);
-        _employeeRepository.Update(employee);
+        var employee = GetEmployeeById(updatedEmployee.Id);
+        updatedEmployee.Password = employee.Password;
+        _employeeRepository.Update(updatedEmployee);
     }
     
 }

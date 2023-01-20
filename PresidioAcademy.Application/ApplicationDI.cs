@@ -12,6 +12,7 @@ public static class ApplicationDI
         services.AddScoped<IEmployeeService,EmployeeService>();
         services.AddScoped<IAssetService,AssetService>();
         services.AddScoped<ILoginService, LoginService>();
+
         return services;
     }
 }

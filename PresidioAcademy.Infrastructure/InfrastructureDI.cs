@@ -22,7 +22,6 @@ public static class InfrastructureDI
         services.AddScoped<IPresidioAcademyContext>(provider => provider.GetService<PresidioAcademyContext>());
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IAssetRepository, AssetRepository>();
-
         services.AddScoped<IADOContext,ADOContext>();
         return services;
     }

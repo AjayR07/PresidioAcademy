@@ -19,7 +19,7 @@ builder.Configuration.AddAzureKeyVault(secretClient, new KeyVaultSecretManager()
 //Get Configuration manager
 var configurations = builder.Configuration;
 // Add services to the container.
-
+builder.Services.AddMemoryCache();
 builder.Services.AddControllers().AddFluentValidation(options =>
 {
     // Validate child properties and root collection elements
@@ -36,6 +36,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddPersistance(configurations);
 builder.Services.AddServices(configurations);
 builder.Services.AddJWT(configurations);
+
+builder.Services.AddResponseCaching( x=> x.MaximumBodySize=1024);
 //Cors Service
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
@@ -59,5 +61,15 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors("corsapp");
 app.MapControllers();
-
+app.Use(async (context, next) =>
+{
+    context.Response.GetTypedHeaders().CacheControl =
+        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+        {
+            Public = true,
+            MaxAge = TimeSpan.FromSeconds(15)
+        };
+    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] = new string[]{"Accept-encoding"};
+    await next();
+});
 app.Run();
